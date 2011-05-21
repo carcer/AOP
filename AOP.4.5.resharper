@@ -1,0 +1,110 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <LiveTemplates>
+      <Template uid="3e67d21a-2e17-45d8-a814-6fe10cec60f0" shortcut="aop4_castle_attribute_factory" description="" text="var container = new WindsorContainer();&#xD;&#xA;            container.Register(&#xD;&#xA;                Component.For&lt;IService&gt;().ImplementedBy&lt;Service&gt;(),&#xD;&#xA;                Component.For&lt;ExceptionAdvice&gt;()&#xD;&#xA;                    .Parameters(Parameter.ForKey(&quot;swallowErrors&quot;).Eq(&quot;true&quot;))&#xD;&#xA;                );&#xD;&#xA;&#xD;&#xA;return container.Resolve&lt;IService&gt;();" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="94d6acc5-e074-432d-919f-3f8b7abdfe9a" shortcut="aop3_castle_exception" description="" text="public class ExceptionAspect : IInterceptor&#xD;&#xA;    {&#xD;&#xA;        private readonly bool swallowErrors;&#xD;&#xA;&#xD;&#xA;        public ExceptionAspect(bool swallowErrors)&#xD;&#xA;        {&#xD;&#xA;            this.swallowErrors = swallowErrors;&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        public void Intercept(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            try&#xD;&#xA;            {&#xD;&#xA;                invocation.Proceed();&#xD;&#xA;            }&#xD;&#xA;            catch (Exception e)&#xD;&#xA;            {&#xD;&#xA;                Console.WriteLine(&quot;{0} caught: {1}&quot;, e.GetType().Name, e.Message);&#xD;&#xA;&#xD;&#xA;                if (!swallowErrors)&#xD;&#xA;                {&#xD;&#xA;                    throw;&#xD;&#xA;                }&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;    }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="d34253b4-785f-46b0-adfb-6422a7f4eb4c" shortcut="aop2_castle_proxy" description="" text="IService service = new Service();&#xD;&#xA;&#xD;&#xA;var proxyGenerator = new ProxyGenerator();&#xD;&#xA;var loggingInterceptor = new LoggingInterceptor();&#xD;&#xA;&#xD;&#xA;return proxyGenerator.CreateInterfaceProxyWithTarget&lt;IService&gt;(service, loggingInterceptor);" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="eca39ab6-6b30-4de0-a733-fad02e746b6d" shortcut="aop10_selector_factory" description="" text="var container = new WindsorContainer();&#xD;&#xA;            container.Register(&#xD;&#xA;&#xD;&#xA;                Component.For&lt;IService&gt;().ImplementedBy&lt;Service&gt;()&#xD;&#xA;                    .Interceptors(InterceptorReference.ForType&lt;LoggingAspect&gt;()).Anywhere,&#xD;&#xA;&#xD;&#xA;                Component.For&lt;TransactionAspect&gt;().Parameters(),&#xD;&#xA;&#xD;&#xA;                Component.For&lt;LoggingAspect&gt;(),&#xD;&#xA;&#xD;&#xA;                Component.For&lt;ExceptionAspect&gt;()&#xD;&#xA;                    .Parameters(Parameter.ForKey(&quot;swallowErrors&quot;).Eq(&quot;true&quot;))&#xD;&#xA;&#xD;&#xA;                );&#xD;&#xA;&#xD;&#xA;            container.Kernel.ProxyFactory.AddInterceptorSelector(new InterceptorSelector());&#xD;&#xA;&#xD;&#xA;            return container.Resolve&lt;IService&gt;();" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="db86bac2-d543-4b37-b53d-dbebe2ead90f" shortcut="aop1_castle_log_interceptor" description="" text="public void Intercept(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            Console.WriteLine(&quot;Intercepting {0}&quot;, invocation.Method.Name);&#xD;&#xA;        }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="b516ef0a-7899-4cb1-9c84-f144446a089f" shortcut="aop6_castle_aspect" description="" text="public void Intercept(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            Before(invocation);&#xD;&#xA;            Around(invocation);&#xD;&#xA;            After(invocation);&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        protected virtual void Before(IInvocation invocation) { }&#xD;&#xA;&#xD;&#xA;        protected virtual void Around(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            invocation.Proceed();&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        protected virtual void After(IInvocation invocation) { }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="3c3cd8a4-b107-4036-8514-e96609ee36ef" shortcut="aop7_castle_logging_advice" description="" text="protected override void Before(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            Console.WriteLine(&quot;Intercepting {0}&quot;, invocation.Method.Name);&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        protected override void After(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            Console.WriteLine(&quot;{0} returned {1}&quot;, invocation.Method.Name, invocation.ReturnValue);&#xD;&#xA;        }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="0330501a-dce6-4a81-98d4-3eb1126f1bab" shortcut="aop8_transaction" description="" text="public class TransactionAspect : Aspect&#xD;&#xA;    {&#xD;&#xA;        protected override void Around(IInvocation invocation)&#xD;&#xA;        {&#xD;&#xA;            try&#xD;&#xA;            {&#xD;&#xA;                Console.WriteLine(&quot;Opening transaction&quot;);&#xD;&#xA;                invocation.Proceed();&#xD;&#xA;                Console.WriteLine(&quot;Commit&quot;);&#xD;&#xA;            }&#xD;&#xA;            catch (Exception)&#xD;&#xA;            {&#xD;&#xA;                Console.WriteLine(&quot;Rollback&quot;);&#xD;&#xA;                throw;&#xD;&#xA;            }&#xD;&#xA;        }&#xD;&#xA;    }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="67ce2627-2e27-4099-a6a8-282c5598760b" shortcut="aop9_selector" description="" text="public class InterceptorSelector : IModelInterceptorsSelector&#xD;&#xA;    {&#xD;&#xA;        public InterceptorReference[] SelectInterceptors(ComponentModel model)&#xD;&#xA;        {&#xD;&#xA;            return new[] { InterceptorReference.ForType&lt;TransactionAspect&gt;() };&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        public bool HasInterceptors(ComponentModel model)&#xD;&#xA;        {&#xD;&#xA;            return typeof(TransactionAspect) != model.Implementation &amp;&amp;&#xD;&#xA;                   model.Implementation.Namespace.StartsWith(&quot;AOP.Console&quot;);&#xD;&#xA;        }&#xD;&#xA;    }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="993cc830-7af8-41dc-a954-8a6cfc001707" shortcut="aop5_castle_windsor" description="" text="var container = new WindsorContainer();&#xD;&#xA;            container.Register(&#xD;&#xA;                Component.For&lt;ExceptionAdvice&gt;()&#xD;&#xA;                    .Parameters(Parameter.ForKey(&quot;swallowErrors&quot;).Eq(&quot;true&quot;)),&#xD;&#xA;                    Component.For&lt;IService&gt;().ImplementedBy&lt;Service&gt;()&#xD;&#xA;                    .Interceptors(InterceptorReference.ForType&lt;ExceptionAdvice&gt;()).Anywhere&#xD;&#xA;                );&#xD;&#xA;&#xD;&#xA;            return container.Resolve&lt;IService&gt;();" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="145017b6-6054-4419-8a5b-6384c5f8a911" shortcut="aop11_trace" description="" text="        private readonly string category;&#xD;&#xA;&#xD;&#xA;        public TraceAttribute(string category)&#xD;&#xA;        {&#xD;&#xA;            this.category = category;&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        public string Category { get { return category; } }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="1819a18c-0754-4063-9828-7cf39b30ef0f" shortcut="aop12_onentry" description="" text="public override void OnEntry(MethodExecutionEventArgs eventArgs)&#xD;&#xA;        {&#xD;&#xA;            Trace.WriteLine(string.Format(&quot;Entering {0}.{1}&quot;,&#xD;&#xA;                              eventArgs.Method.DeclaringType.Name,&#xD;&#xA;                              eventArgs.Method.Name), category);&#xD;&#xA;        }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+      <Template uid="cf87f6eb-a9df-4cb7-9b56-c183835edb81" shortcut="aop12_onexit" description="" text="public override void OnExit(MethodExecutionEventArgs eventArgs)&#xD;&#xA;        {&#xD;&#xA;            Trace.WriteLine(string.Format(&quot;Leaving {0}.{1}&quot;,&#xD;&#xA;                eventArgs.Method.DeclaringType.Name,&#xD;&#xA;                eventArgs.Method.Name), category);&#xD;&#xA;        }" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <CSharpContext context="Everywhere" minimumLanguageVersion="2.0" />
+        </Context>
+        <Categories />
+        <Variables />
+        <CustomProperties />
+      </Template>
+    </LiveTemplates>
+  </SharedSolutionTemplateManager>
+</Configuration>

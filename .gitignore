@@ -8,8 +8,6 @@ Bin
 obj
 _ReSharper*
 *.csproj.user
-*resharper*
-*ReSharper*
 *.suo
 *.cache
 TestResult.xml
